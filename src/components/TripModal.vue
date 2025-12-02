@@ -20,6 +20,7 @@ const form = ref({
   sub: '',
   cost: 0,
   note: '',
+  note: '',
   naver_map: ''
 });
 
@@ -50,6 +51,7 @@ const resetForm = () => {
     title: '',
     sub: '',
     cost: 0,
+    note: '',
     note: '',
     naver_map: ''
   };
@@ -123,16 +125,21 @@ const handleDelete = () => {
 </script>
 
 <template>
-  <div v-if="isOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 backdrop-blur-sm">
-    <div class="bg-gray-800 rounded-xl p-6 w-full max-w-md shadow-2xl border border-gray-700 max-h-[90vh] overflow-y-auto">
+  <div v-if="isOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm">
+    <div class="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 w-full max-w-md shadow-lg max-h-[90vh] overflow-y-auto relative">
       
-      <div class="flex justify-between items-center mb-4">
+      <!-- Close Button -->
+      <button 
+        @click="$emit('close')" 
+        class="absolute top-5 right-5 text-gray-400 hover:text-white transition-colors z-10"
+      >
+        <i class="fa-solid fa-xmark fa-xl"></i>
+      </button>
+
+      <div class="mb-4 pr-8">
         <h3 class="text-xl font-bold text-white">
           {{ isEditMode ? '編輯行程' : `新增 Day ${currentDay} 行程` }}
         </h3>
-        <button @click="$emit('close')" class="text-gray-400 hover:text-white">
-          <i class="fa-solid fa-xmark text-xl"></i>
-        </button>
       </div>
 
       <!-- Load from Collection (Only in Add Mode) -->
@@ -197,19 +204,21 @@ const handleDelete = () => {
           <input v-model="form.note" type="text" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-teal-500" placeholder="選填">
         </div>
 
+
+
         <!-- Naver Map -->
         <div>
           <label class="block text-gray-400 text-sm mb-1">
-            <i class="fa-solid fa-map-location-dot mr-1"></i> Naver Map 資訊
+            <i class="fa-solid fa-map-location-dot mr-1"></i> NAVER連結
           </label>
-          <textarea v-model="form.naver_map" rows="3" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-teal-500" placeholder="貼上連結或相關資訊..."></textarea>
+          <textarea v-model="form.naver_map" rows="3" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-teal-500" placeholder="請貼上 Naver Map 分享網址..."></textarea>
         </div>
       </div>
 
       <!-- Action Buttons -->
       <div class="flex flex-col gap-3 mt-8">
         <div class="flex gap-3">
-            <button @click="handleSave('schedule')" class="flex-1 py-3 rounded-lg bg-teal-600 text-white hover:bg-teal-500 transition-colors font-bold shadow-lg flex items-center justify-center">
+            <button @click="handleSave('schedule')" class="flex-1 py-3 rounded-lg bg-teal-500 text-white hover:bg-teal-400 transition-colors font-bold shadow-[0_0_15px_rgba(45,212,191,0.3)] flex items-center justify-center">
                 <i class="fa-solid fa-calendar-check mr-2"></i> 加入行程
             </button>
             <button @click="handleSave('collection')" class="flex-1 py-3 rounded-lg bg-indigo-600 text-white hover:bg-indigo-500 transition-colors font-bold shadow-lg flex items-center justify-center">
@@ -217,9 +226,11 @@ const handleDelete = () => {
             </button>
         </div>
         
-        <button v-if="isEditMode" @click="handleDelete" class="w-full py-2 rounded-lg bg-red-900/50 text-red-400 border border-red-800 hover:bg-red-900 transition-colors text-sm flex items-center justify-center">
-            <i class="fa-solid fa-trash mr-2"></i> 刪除此項目
-        </button>
+        <div v-if="isEditMode" class="flex justify-center mt-2">
+            <button @click="handleDelete" class="w-full py-2 rounded-lg bg-red-500/20 text-red-400 hover:bg-red-500/30 transition-colors text-sm flex items-center justify-center">
+                <i class="fa-solid fa-trash mr-2"></i> 刪除此行程
+            </button>
+        </div>
       </div>
     </div>
   </div>
