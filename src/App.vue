@@ -611,7 +611,7 @@ watch(categoryCosts, () => {
         </div>
 
         <div class="bg-gray-800 rounded-2xl p-4 border border-gray-700 shadow-lg">
-          <div class="chart-container">
+          <div class="relative w-full h-64">
             <canvas id="expenseChart"></canvas>
           </div>
         </div>
@@ -628,7 +628,7 @@ watch(categoryCosts, () => {
 
         <!-- Battle Chart -->
         <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-4 shadow-xl mb-8">
-          <div class="h-[200px]">
+          <div class="relative w-full h-64">
             <canvas id="battleChart"></canvas>
           </div>
           <p class="text-xs text-center text-gray-500 mt-2">* 包含公費均分 (NT${{ Math.round(publicShare * 0.024).toLocaleString() }}) + 個人私帳</p>
