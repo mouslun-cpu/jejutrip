@@ -28,6 +28,10 @@ const selectedDraftId = ref('');
 
 const isEditMode = computed(() => !!props.editData && !!props.editData.id);
 
+const costTwd = computed(() => {
+  return Math.round((form.value.cost || 0) * 0.024);
+});
+
 const periodOptions = [
   { value: 'morning', label: '上午' },
   { value: 'afternoon', label: '下午' },
@@ -195,23 +199,26 @@ const handleDelete = () => {
         <!-- Cost -->
         <div>
           <label class="block text-gray-400 text-sm mb-1">費用 (KRW)</label>
-          <input v-model.number="form.cost" type="number" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-teal-500">
+          <div class="relative">
+            <input v-model.number="form.cost" type="number" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-teal-500">
+            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-teal-400 font-mono">
+              ≈ NT$ {{ costTwd.toLocaleString() }}
+            </span>
+          </div>
         </div>
-
-        <!-- Note -->
-        <div>
-          <label class="block text-gray-400 text-sm mb-1">備註</label>
-          <input v-model="form.note" type="text" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-teal-500" placeholder="選填">
-        </div>
-
-
 
         <!-- Naver Map -->
         <div>
           <label class="block text-gray-400 text-sm mb-1">
             <i class="fa-solid fa-map-location-dot mr-1"></i> NAVER連結
           </label>
-          <textarea v-model="form.naver_map" rows="3" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-teal-500" placeholder="請貼上 Naver Map 分享網址..."></textarea>
+          <input v-model="form.naver_map" type="text" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-teal-500" placeholder="請貼上 Naver Map 分享網址...">
+        </div>
+
+        <!-- Note -->
+        <div>
+          <label class="block text-gray-400 text-sm mb-1">內容</label>
+          <textarea v-model="form.note" rows="4" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-teal-500" placeholder="選填"></textarea>
         </div>
       </div>
 
